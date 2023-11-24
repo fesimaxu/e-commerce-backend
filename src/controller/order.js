@@ -79,23 +79,23 @@ const deleteUserOrderItemByIdController = async (req, res, next) =>{
 //     }
 // ]).toArray()
 
-        const order = await orderItemList.findOne({_id: id})
-
-    console.log('order ', order)
+        const order = await orderItemList.aggregate( [
+          { $match: { order_id: id } },
+          { $limit: 1 }
+        ] ).toArray()
 
     if(!order){
         sendErrorResponse(res, 404, "order not found")
     }
 
-    // const deletedUserOrder = await orderItemList.deleteOne({ _id: { "$in": order }});
+    const deletedUserOrder = await orderItemList.deleteOne({ order_id: id });
 
-    // console.log(deletedUserOrder)
 
-    // if(!deletedUserOrder || deletedUserOrder.deletedCount === 0 ){
-    //     sendErrorResponse(res, 404, "Order item failed to delete")
-    // }
+    if(!deletedUserOrder || deletedUserOrder.deletedCount === 0 ){
+        sendErrorResponse(res, 404, "Order item failed to delete")
+    }
 
-    // sendSuccessfulResponse(res, 200, `${deletedUserOrder.deletedCount} document(s) was/were deleted.`)
+    sendSuccessfulResponse(res, 200, `${deletedUserOrder.deletedCount} document(s) was/were deleted.`)
 
     } catch (error) {
         console.log(error)
