@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -9,7 +8,7 @@ const { BaseRoute } = require("./src/utils/endpoints");
 const errorHandling = require("./src/middleware/errorHandler");
 const dbConfig = require("./src/config");
 const specs = require("./swaggerConfig");
-
+require("dotenv").config();
 // initializing express server
 const app = express();
 
