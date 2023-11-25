@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 const { verifyToken } = require("../../services/helpers");

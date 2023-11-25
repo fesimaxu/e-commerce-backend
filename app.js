@@ -14,6 +14,7 @@ const specs = require("./swaggerConfig");
 const app = express();
 
 // PORT
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT;
 
 // middlewares

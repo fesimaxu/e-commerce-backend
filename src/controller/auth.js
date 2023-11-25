@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 const {
@@ -10,10 +11,11 @@ const { generateToken } = require("../services/helpers");
 const client = new MongoClient(`${process.env.DATABASE_URL}`);
 
 // Database Name
+// eslint-disable-next-line no-undef
 const dbName = `${process.env.DATABASE_NAME}`;
 
 // user login controller
-const loginUserController = async (req, res, next) => {
+const loginUserController = async (req, res) => {
   try {
     // user input details
     const { username, password } = req.body;
@@ -47,7 +49,7 @@ const loginUserController = async (req, res, next) => {
   }
 };
 
-const updateUserDetailsController = async (req, res, next) => {
+const updateUserDetailsController = async (req, res) => {
   try {
     const { seller_id } = req.user;
 

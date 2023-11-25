@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 require("dotenv").config();
-const { MongoClient, ObjectID } = require("mongodb");
+const { MongoClient } = require("mongodb");
 const {
   sendErrorResponse,
   sendSuccessfulResponse,
@@ -11,7 +12,7 @@ const client = new MongoClient(`${process.env.DATABASE_URL}`);
 // Database Name
 const dbName = `${process.env.DATABASE_NAME}`;
 
-const getUserOrderItemsController = async (req, res, next) => {
+const getUserOrderItemsController = async (req, res) => {
   try {
     const { seller_id } = req.user;
 
@@ -59,7 +60,7 @@ const getUserOrderItemsController = async (req, res, next) => {
   }
 };
 
-const deleteUserOrderItemByIdController = async (req, res, next) => {
+const deleteUserOrderItemByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     console.log("id ", id);
@@ -68,14 +69,6 @@ const deleteUserOrderItemByIdController = async (req, res, next) => {
     await client.connect();
     const database = client.db(dbName);
     const orderItemList = database.collection("orderItems");
-
-    //     const order = await orderItemList.aggregate([ {
-    //         $match: { _id: id }
-    //     },
-    //     {
-    //         $replaceRoot: { newRoot: "$_id" }
-    //     }
-    // ]).toArray()
 
     const order = await orderItemList
       .aggregate([{ $match: { order_id: id } }, { $limit: 1 }])

@@ -1,8 +1,11 @@
 {
-  "name": "e-commerce-backend",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "yes",
+  "version": "yes",
+  "main": "app.js",
   "license": "MIT",
+  "repository": "yes",
+  "author": "fesimaxu",
+  "private": "false",
   "scripts": {
     "start": "node ./app.js",
     "dev": "nodemon ./app.js",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.3.1",
+    "eslint": "^8.54.0",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^9.1.1",
     "nodemon": "^3.0.1",
