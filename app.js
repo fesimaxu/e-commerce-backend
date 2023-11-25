@@ -4,9 +4,11 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { readdirSync } = require("fs");
+const swaggerUi = require("swagger-ui-express");
 const { BaseRoute } = require("./src/utils/endpoints");
 const errorHandling = require("./src/middleware/errorHandler");
 const dbConfig = require("./src/config");
+const specs = require("./swaggerConfig");
 
 // initializing express server
 const app = express();
@@ -51,6 +53,9 @@ app.get(BaseRoute, (req, res) => {
 
 // error handling
 app.use(errorHandling);
+
+// swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Database connection
 dbConfig()

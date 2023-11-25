@@ -101,6 +101,7 @@ describe("User Login", () => {
 
       const isExistingUser = res.body.data;
 
+      // Note - To test this endpoint you need to always pass in the order_id of the item to delete
       const response = await agent
         .delete(`/api/v1/order_items/00010242fe8c5a6d1ba2dd792cb16214`)
         .set("Authorization", `Bearer ${isExistingUser.token}`);
