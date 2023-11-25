@@ -103,7 +103,7 @@ This project uses the MIT License as found in [LICENSE](/LICENSE)
 
 ## 📖 Documentation
 
-Documentation can be found [here](/)
+Documentation can be found [SWAGGERDOCS](http://localhost:3050/api-docs)
 
 ## 🔗 Links
 
