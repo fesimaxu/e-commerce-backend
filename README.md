@@ -7,6 +7,9 @@ Backend for the e-commerce web app.
 - NodeJS
 - ExpressJS
 - MongoDB Driver
+- Input Validation: Express validator
+- Documentation: implemented with swagger docs
+- Test: Jest Supertest and mongoDB Memory server
 
 ## 📝 Requirements
 
@@ -21,6 +24,7 @@ The project is divided into:
 - Model: found in `src/model` directory. Database Schema of the events app.
 - Routes: found in `src/routes` directory. URL endpoints and their corresponding method/action.
 
+
 ## 💻 Running Locally
 
 1. Clone this repository by running:
@@ -32,7 +36,10 @@ The project is divided into:
    ```bash
    npm install
    ```
-3. Using the `.env_sample` template, create a `.env` file and fill in the values for each environment variables.
+3. Using the `.env.example` template, create a `.env` file and fill in the values for each environment variables.
+   ```bash
+   cp .env.example .env 
+   ```
 4. Start the server in dev mode:
    ```bash
    npm run dev 

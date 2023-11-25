@@ -59,96 +59,52 @@ const getUserOrderItemsController = async (req, res, next) => {
   }
 };
 
+const deleteUserOrderItemByIdController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log("id ", id);
 
-const deleteUserOrderItemByIdController = async (req, res, next) =>{
-    try {
-
-    const { id } = req.params
-        console.log("id ", id )
-        
     // database connection
     await client.connect();
     const database = client.db(dbName);
     const orderItemList = database.collection("orderItems");
 
-//     const order = await orderItemList.aggregate([ {
-//         $match: { _id: id }
-//     },
-//     {
-//         $replaceRoot: { newRoot: "$_id" }
-//     }
-// ]).toArray()
+    //     const order = await orderItemList.aggregate([ {
+    //         $match: { _id: id }
+    //     },
+    //     {
+    //         $replaceRoot: { newRoot: "$_id" }
+    //     }
+    // ]).toArray()
 
-        const order = await orderItemList.aggregate( [
-          { $match: { order_id: id } },
-          { $limit: 1 }
-        ] ).toArray()
+    const order = await orderItemList
+      .aggregate([{ $match: { order_id: id } }, { $limit: 1 }])
+      .toArray();
 
-    if(!order){
-        sendErrorResponse(res, 404, "order not found")
+    if (!order) {
+      sendErrorResponse(res, 404, "order not found");
     }
 
     const deletedUserOrder = await orderItemList.deleteOne({ order_id: id });
 
-
-    if(!deletedUserOrder || deletedUserOrder.deletedCount === 0 ){
-        sendErrorResponse(res, 404, "Order item failed to delete")
+    if (!deletedUserOrder || deletedUserOrder.deletedCount === 0) {
+      sendErrorResponse(res, 404, "Order item failed to delete");
     }
 
-    sendSuccessfulResponse(res, 200, `${deletedUserOrder.deletedCount} document(s) was/were deleted.`)
-
-    } catch (error) {
-        console.log(error)
-        sendErrorResponse(res, 500, error)
-    } finally{
-        await client.close()
-    }
-}
-
-const updateUserDetailsController = async ( req, res, next ) => {
-    try {
-        const { seller_id } = req.user;
-
-        const { city, state } = req.body
-
-        // database connection
-        await client.connect();
-        const database = client.db(dbName);
-        const users = database.collection("seller");
-
-        const updateField = {}
-
-        if(city !== undefined){
-            updateField.seller_city = city
-        }
-
-        if(state !== undefined){
-            updateField.seller_state = state
-        }
-        const updatedUser = await users.updateMany({ seller_id: seller_id }, { $set: updateField })
-
-        if(!updatedUser || updatedUser.matchedCount === 0){
-             sendErrorResponse(res, 404, "user details failed to update")
-        }
-
-        const user = await users.findOne({ seller_id: seller_id })
-
-        const updatedUserData = {
-           city: user.seller_city,
-           state: user.seller_state
-        }
-
-        sendSuccessfulResponse(res, 200, updatedUserData)
-
-    } catch (error) {
-        sendErrorResponse(res, 500, error)
-    } finally {
-        await client.close();
-    }
-}
+    sendSuccessfulResponse(
+      res,
+      200,
+      `${deletedUserOrder.deletedCount} document(s) was/were deleted.`
+    );
+  } catch (error) {
+    console.log(error);
+    sendErrorResponse(res, 500, error);
+  } finally {
+    await client.close();
+  }
+};
 
 module.exports = {
   getUserOrderItemsController,
   deleteUserOrderItemByIdController,
-  updateUserDetailsController
 };
